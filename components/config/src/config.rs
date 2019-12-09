@@ -7,8 +7,8 @@ use syntect::parsing::{SyntaxSet, SyntaxSetBuilder};
 use toml;
 use toml::Value as Toml;
 
-use errors::Result;
 use errors::Error;
+use errors::Result;
 use highlighting::THEME_SET;
 use theme::Theme;
 use utils::fs::read_file_with_error;
@@ -86,7 +86,7 @@ impl Default for Taxonomy {
     }
 }
 
-type TranslateTerm  = HashMap<String, String>;
+type TranslateTerm = HashMap<String, String>;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
@@ -172,7 +172,9 @@ impl Config {
             bail!("A base URL is required in config.toml with key `base_url`");
         }
 
-        if !THEME_SET.themes.contains_key(&config.highlight_theme) {
+        if !(&config.highlight_theme == "css")
+            && !THEME_SET.themes.contains_key(&config.highlight_theme)
+        {
             bail!("Highlight theme {} not available", config.highlight_theme)
         }
 
@@ -317,9 +319,16 @@ impl Config {
             Error::msg(format!("Translation for language '{}' is missing", lang.as_ref()))
         })?;
 
-        terms.get(key.as_ref()).ok_or_else(|| {
-            Error::msg(format!("Translation key '{}' for language '{}' is missing", key.as_ref(), lang.as_ref()))
-        }).map(|term| term.to_string())
+        terms
+            .get(key.as_ref())
+            .ok_or_else(|| {
+                Error::msg(format!(
+                    "Translation key '{}' for language '{}' is missing",
+                    key.as_ref(),
+                    lang.as_ref()
+                ))
+            })
+            .map(|term| term.to_string())
     }
 }
 
