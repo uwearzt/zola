@@ -20,6 +20,8 @@ extern crate utils;
 #[cfg(test)]
 extern crate tempfile;
 
+extern crate syntect;
+
 mod sitemap;
 
 use std::collections::HashMap;
@@ -43,6 +45,11 @@ use templates::{global_fns, render_redirect_template, ZOLA_TERA};
 use utils::fs::{copy_directory, create_directory, create_file, ensure_directory_exists};
 use utils::net::get_available_port;
 use utils::templates::{render_template, rewrite_theme_paths};
+
+use config::highlighting::THEME_SET;
+use syntect::html::css_for_theme;
+use std::fs::File;
+use std::io::{BufWriter, Write};
 
 #[derive(Debug)]
 pub struct Site {
@@ -734,6 +741,10 @@ impl Site {
             self.compile_sass(&self.base_path)?;
         }
 
+        if self.config.generate_theme_css.len() > 0 {
+            self.generate_themes()?;
+        }
+
         if self.config.build_search_index {
             self.build_search_index()?;
         }
@@ -837,6 +848,21 @@ impl Site {
             }
         }
 
+        Ok(())
+    }
+
+    pub fn generate_themes(&self) -> Result<()> {
+        ensure_directory_exists(&self.output_path)?;
+        for css_theme in &self.config.generate_theme_css {
+            println!("Generating CSS: {} for theme: {}", css_theme.file, css_theme.theme);
+
+            let theme = &THEME_SET.themes[&css_theme.theme];
+            let css_file = File::create(Path::new(&self.output_path.join(&css_theme.file)))?;
+            let mut css_writer = BufWriter::new(&css_file);
+
+            let css = css_for_theme(theme);
+            writeln!(css_writer, "{}", css)?;
+        }
         Ok(())
     }
 
