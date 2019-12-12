@@ -210,7 +210,7 @@ pub fn markdown_to_html(content: &str, context: &RenderContext) -> Result<Render
                             let sr_rs = &SYNTAX_SET.find_syntax_by_extension("rs").unwrap();
                             css_highlighter = Some(ClassedHTMLGenerator::new(&sr_rs, &SYNTAX_SET));
 
-                            return Event::Html("<pre><code class=\"code\">".into());
+                            return Event::Html("<pre class=\"code\"><code class=\"code\">".into());
                         }
                         let theme = &THEME_SET.themes[&context.config.highlight_theme];
                         highlighter = Some(get_highlighter(info, &context.config));
