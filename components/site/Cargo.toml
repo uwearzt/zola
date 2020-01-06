@@ -10,7 +10,7 @@ rayon = "1"
 serde = "1"
 serde_derive = "1"
 sass-rs = "0.2"
-syntect = { path = "/Users/uwe/repo/rust/syntect" }
+syntect = { git = "https://github.com/trishume/syntect.git", rev = "e9b942d1c882067ee11e251f4a9ff566595019da" }
 
 errors = { path = "../errors" }
 config = { path = "../config" }

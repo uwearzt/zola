@@ -5,7 +5,7 @@ authors = ["Vincent Prouillet <prouillet.vincent@gmail.com>"]
 
 [dependencies]
 tera = { version = "1.0.0-beta.10", features = ["preserve_order"] }
-syntect = { path = "/Users/uwe/repo/rust/syntect" }
+syntect = { git = "https://github.com/trishume/syntect.git", rev = "e9b942d1c882067ee11e251f4a9ff566595019da" }
 pulldown-cmark = "0.6"
 slug = "0.1"
 serde = "1"

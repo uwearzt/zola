@@ -10,7 +10,7 @@ serde_derive = "1"
 chrono = "0.4"
 globset = "0.4"
 lazy_static = "1"
-syntect = { path = "/Users/uwe/repo/rust/syntect" }
+syntect = { git = "https://github.com/trishume/syntect.git", rev = "e9b942d1c882067ee11e251f4a9ff566595019da" }
 
 errors = { path = "../errors" }
 utils = { path = "../utils" }

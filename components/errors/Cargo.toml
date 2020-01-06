@@ -7,4 +7,4 @@ authors = ["Vincent Prouillet <prouillet.vincent@gmail.com>"]
 tera = "1.0.0-beta.10"
 toml = "0.5"
 image = "0.22"
-syntect = { path = "/Users/uwe/repo/rust/syntect" }
+syntect = { git = "https://github.com/trishume/syntect.git", rev = "e9b942d1c882067ee11e251f4a9ff566595019da" }
